@@ -29,13 +29,34 @@ function App() {
     );
   }
 
+  const completeTodo = (index, status) => {
+    const newTodos = [...todos];
+    newTodos[index].completed = status;
+
+    setTodos(newTodos);
+  };
+
+  const deleteTodo = (index) => {
+    const newTodos = [...todos];
+    newTodos.splice(index, 1);
+
+    setTodos(newTodos);
+  };
+
   return (
     <React.Fragment>
       <TodoCounter total={totalTodos} completed={completedTodos} />
       <TodoSearch searchValue={searchValue} setSearchValue={setSearchValue} />
       <TodoList>
         {searchedTodos.map((todo, index) => (
-          <TodoItem key={index} text={todo.text} completed={todo.completed} />
+          <TodoItem
+            key={index}
+            index={index}
+            text={todo.text}
+            completed={todo.completed}
+            onComplete={completeTodo}
+            onDelete={deleteTodo}
+          />
         ))}
       </TodoList>
       <CreateTodoButton />
