@@ -6,15 +6,18 @@ import { TodoList } from "./Components/TodoList";
 import { TodoSearch } from "./Components/TodoSearch";
 // import "./App.css";
 
-const defaultTodos = [
-  { text: "Todo 1", completed: true },
-  { text: "Todo 2", completed: false },
-  { text: "Todo 3", completed: false },
-  { text: "Todo 4", completed: true },
-];
-
 function App() {
-  const [todos, setTodos] = useState(defaultTodos);
+  const localStorageTodos = localStorage.getItem("TodosMachine_v1");
+  let parsedTodos;
+
+  if (!localStorageTodos) {
+    localStorage.setItem("TodosMachine_v1", "[]");
+    parsedTodos = [];
+  } else {
+    parsedTodos = JSON.parse(localStorageTodos);
+  }
+
+  const [todos, setTodos] = useState(parsedTodos);
   const [searchValue, setSearchValue] = useState("");
 
   const completedTodos = todos.filter((todo) => !!todo.completed).length;
@@ -29,18 +32,23 @@ function App() {
     );
   }
 
+  const saveTodos = (newTodos) => {
+    localStorage.setItem("TodosMachine_v1", JSON.stringify(newTodos));
+    setTodos(newTodos);
+  };
+
   const completeTodo = (index, status) => {
     const newTodos = [...todos];
     newTodos[index].completed = status;
 
-    setTodos(newTodos);
+    saveTodos(newTodos);
   };
 
   const deleteTodo = (index) => {
     const newTodos = [...todos];
     newTodos.splice(index, 1);
 
-    setTodos(newTodos);
+    saveTodos(newTodos);
   };
 
   return (
