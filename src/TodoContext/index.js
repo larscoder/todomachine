@@ -27,17 +27,16 @@ function TodoProvider(props) {
     });
   }
 
-  const completeTodo = (text) => {
-    const todoIndex = todos.findIndex((todo) => todo.text === text);
+  const completeTodo = (index, status) => {
+    console.log(status);
     const newTodos = [...todos];
-    newTodos[todoIndex].completed = !newTodos[todoIndex].completed;
+    newTodos[index].completed = status;
     saveTodos(newTodos);
   };
 
-  const deleteTodo = (text) => {
-    const todoIndex = todos.findIndex((todo) => todo.text === text);
+  const deleteTodo = (index) => {
     const newTodos = [...todos];
-    newTodos.splice(todoIndex, 1);
+    newTodos.splice(index, 1);
     saveTodos(newTodos);
   };
 
