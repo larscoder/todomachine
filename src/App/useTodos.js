@@ -27,7 +27,6 @@ function useTodos() {
   }
 
   const completeTodo = (index, status) => {
-    console.log(status);
     const newTodos = [...todos];
     newTodos[index].completed = status;
     saveTodos(newTodos);
